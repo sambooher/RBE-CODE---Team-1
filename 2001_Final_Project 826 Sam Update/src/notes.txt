@@ -1,0 +1,138 @@
+Notes on how to make state program:
+
+    * Need to do the IR Remote thing (EMERGENCY STOP)
+        -> Been put into the code as an object 
+    - Write out the states for the state machine
+    - Put all the chassis functions into the program 
+        - Line Follow
+        - Turn onto Line
+        - Line follow til a distance to the wall? 
+        - Drive until hitting a line
+    - 
+
+STATES: 
+    STOP
+    START
+    ? END ?
+    TURNTOLINE
+    LINEFOLLOWTOLINE
+    LINEFOLLOWTODIST
+    DRIVE
+        - forward for count
+        - backward for count
+        - forward to line
+    TURN (angle)
+    MOVEARM
+    OPEN
+    CLOSE
+
+
+
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+                                PLATE MOVEMENT STATES
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+ case STAGINGPLATFORM: // Supply box pickup and placement
+    Serial.println("STAGING PLATFORM!!");
+    buttonB.waitForButton();
+    delay(200);
+    motor.moveTo(DOWN_POSITION); // Move arm to supply box position
+    leadScrewGripper.open(); // Open gripper
+    delay(2000);
+    // Move forwards here
+    leadScrewGripper.close(); // Grip plate
+    delay(5000);
+    // Lift plate from box
+    buttonB.waitForButton();
+    motor.moveTo(FOURTYFIVE_LIFT_POSITION);
+    delay(1000);
+
+    // Place plate
+    // Lift plate to placement position
+    buttonB.waitForButton();
+    delay(200);
+    motor.moveTo(DOWN_POSITION); // Lower plate over box
+    delay(2000);
+    buttonB.waitForButton();
+    leadScrewGripper.open(); // Release plate
+    delay(2000);
+    // Move backwards here
+    buttonB.waitForButton();
+    leadScrewGripper.close(); // only need here for lab, probably want to remain open for demo
+    break;
+
+  case TWENTYFIVE:   // 25 Degree pickup and placement
+    Serial.println("TWENTY FIVE DEGREE ROOF");
+    buttonB.waitForButton();
+    delay(200);
+    leadScrewGripper.open(); // Open gripper
+    delay(2000);
+    motor.moveTo(TWENTYFIVE_PICKUP_POSITION); // Move arm to 25 degree pickup position
+    delay(2000);
+    // Move forwards here
+    leadScrewGripper.close(); // Grip plate
+    delay(5000);
+    // Lift plate from pegs
+    buttonB.waitForButton();
+    motor.moveTo(TWENTYFIVE_LIFT_POSITION);
+    delay(2000);
+    // Move backwards here
+    motor.moveTo(DOWN_POSITION);
+
+    // Place plate
+    // Lift plate to placement position
+    buttonB.waitForButton();
+    delay(200);
+    motor.moveTo(TWENTYFIVE_LIFT_POSITION); 
+    delay(2000);
+    // Move forwards here
+    // Lower plate over pegs
+    buttonB.waitForButton();
+    motor.moveTo(TWENTYFIVE_PICKUP_POSITION);
+    delay(2000);
+    leadScrewGripper.open(); // Release plate
+    delay(2000);
+    // Move backwards here
+    buttonB.waitForButton();
+    leadScrewGripper.close(); // only need here for lab, probably want to remain open for demo
+    motor.moveTo(DOWN_POSITION);
+    break;
+
+  case FOURTYFIVE: // 45 Degree pickup and placement
+    Serial.println("FOURTY FIVE DEGREE ROOF"); 
+    // Pick up plate 
+    // Lift plate to pickup position
+    buttonB.waitForButton();
+    delay(200);
+    leadScrewGripper.open(); // Open gripper
+    delay(2000);
+    motor.moveTo(FOURTYFIVE_PICKUP_POSITION); // Move arm to 45 degree pickup position
+    delay(2000);
+    // Move forwards here
+    leadScrewGripper.close(); // Grip plate
+    delay(5000);
+    // Lift plate from pegs
+    buttonB.waitForButton();
+    motor.moveTo(FOURTYFIVE_LIFT_POSITION);
+    delay(2000);
+    // Move backwards here
+    motor.moveTo(DOWN_POSITION);
+
+    // Place plate
+    // Lift plate to placement position
+    buttonB.waitForButton();
+    delay(200);
+    motor.moveTo(FOURTYFIVE_LIFT_POSITION);
+    delay(2000);
+    // Move forwards here
+    // Lower plate over pegs
+    buttonB.waitForButton();
+    motor.moveTo(FOURTYFIVE_PICKUP_POSITION);
+    delay(2000);
+    leadScrewGripper.open(); // Release plate
+    delay(2000);
+    // Move backwards here
+    buttonB.waitForButton();
+    leadScrewGripper.close(); // only need here for lab, probably want to remain open for demo
+    motor.moveTo(DOWN_POSITION);
+    break;
